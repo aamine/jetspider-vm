@@ -4,6 +4,10 @@ SpiderMonkey VM interface (command).
 The JetSpider compiler generates executable files for this VM.
 See https://github.com/aamine/jetspider-course for compiler details.
 
+## Platform
+
+I tried only on Mac OS X 10.10 (Yosemite).
+
 ## Build
 
 1. Get SpiderMonkey 1.8.5 from https://developer.mozilla.org/ja/docs/SpiderMonkey
