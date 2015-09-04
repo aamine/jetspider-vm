@@ -1,0 +1,48 @@
+--- jsscript.h.org	2015-07-22 17:44:33.000000000 +0900
++++ jsscript.h	2015-07-22 17:46:35.000000000 +0900
+@@ -731,7 +731,7 @@ js_CloneScript(JSContext *cx, JSScript *
+  * required subsequent set-up of owning function or script object and then call
+  * js_CallNewScriptHook.
+  */
+-extern JSBool
++extern JS_PUBLIC_API(JSBool)
+ js_XDRScript(JSXDRState *xdr, JSScript **scriptp, JSBool *hasMagic);
+ 
+ inline bool
+--- jsscript.cpp.org	2015-07-22 17:45:40.000000000 +0900
++++ jsscript.cpp	2015-07-22 17:45:56.000000000 +0900
+@@ -307,7 +307,7 @@ enum ScriptBits {
+     UsesArguments
+ };
+ 
+-JSBool
++JS_PUBLIC_API(JSBool)
+ js_XDRScript(JSXDRState *xdr, JSScript **scriptp, JSBool *hasMagic)
+ {
+     JSScript *oldscript;
+--- jsopcode.h.org	2015-07-17 16:41:20.000000000 +0900
++++ jsopcode.h	2015-07-17 16:41:10.000000000 +0900
+@@ -431,6 +431,9 @@ js_GetStackDefs(JSContext *cx, const JSC
+ #include <stdio.h>
+ 
+ extern JS_FRIEND_API(JSBool)
++js_DumpScript(JSContext *cx, JSScript *script);
++
++extern JS_FRIEND_API(JSBool)
+ js_Disassemble(JSContext *cx, JSScript *script, JSBool lines, FILE *fp);
+ 
+ extern JS_FRIEND_API(uintN)
+--- jsopcode.cpp.org	2015-07-17 14:24:56.000000000 +0900
++++ jsopcode.cpp	2015-07-17 14:20:37.000000000 +0900
+@@ -401,7 +401,10 @@ js_Disassemble1(JSContext *cx, JSScript 
+     fprintf(fp, "%05u:", loc);
+     if (lines)
+         fprintf(fp, "%4u", JS_PCToLineNumber(cx, script, pc));
+-    fprintf(fp, "  %s", js_CodeName[op]);
++    for (jsbytecode *p = pc; p - pc < len; p++) {
++        fprintf(fp, " %02x", *p);
++    }
++    fprintf(fp, "\t  %s", js_CodeName[op]);
+     type = JOF_TYPE(cs->format);
+     switch (type) {
+       case JOF_BYTE:
