@@ -6,15 +6,16 @@ See https://github.com/aamine/jetspider-course for compiler details.
 
 ## Platform
 
-I tried only on Mac OS X 10.10 (Yosemite).
+I tried on Mac OS X 10.10 (Yosemite) and 10.11 (El Capitan).
 
 ## Build
 
 1. Get SpiderMonkey 1.8.5 from https://developer.mozilla.org/ja/docs/SpiderMonkey
 2. Apply SpiderMonkey.diff
-3. Build SpiderMonkey with debugging support, by "configure --enable-debug"
-4. Copy libmozjs185.dylib (or .so) as libmozjs_debug.a
-5. make
+3. Build SpiderMonkey with debugging and static library support,
+   by "configure --enable-debug --enable-static".
+4. "make install" in SpiderMonkey srcdir.
+5. "make" in this directory.
 
 ## License
 
